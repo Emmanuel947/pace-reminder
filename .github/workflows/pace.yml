@@ -1,0 +1,22 @@
+name: PACE Reminder
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+  # Lets you test it manually
+  workflow_dispatch:
+
+jobs:
+  send-pace:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send PACE notification
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          curl \
+            -H "Title: PACE" \
+            -d "PACE" \
+            "https://ntfy.sh/$NTFY_TOPIC"
